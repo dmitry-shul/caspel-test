@@ -13,6 +13,7 @@ function App() {
     lastName: "",
     middleName: "",
     age: null,
+    key: undefined,
   });
   const [data, setData] = useState([
     {
@@ -67,6 +68,7 @@ function App() {
       lastName: record.name.split(" ")[1],
       middleName: record.name.split(" ")[2],
       age: record.age,
+      key: record.key,
     })
   }
 
@@ -76,7 +78,17 @@ function App() {
       <Button type="primary" className='add-btn' onClick={showModal}>
         Добавить
       </Button>
-      <MyModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} inputs={inputs} setInputs={setInputs} invalidMessage={invalidMessage} setInvalidMessage={setInvalidMessage} isEdit={isEdit} data={data} setData={setData} />
+      <MyModal 
+        isModalOpen={isModalOpen} 
+        setIsModalOpen={setIsModalOpen} 
+        inputs={inputs} 
+        setInputs={setInputs} 
+        invalidMessage={invalidMessage} 
+        setInvalidMessage={setInvalidMessage} 
+        isEdit={isEdit} 
+        data={data} 
+        setData={setData} 
+      />
       <Table columns={columns} dataSource={data} />
     </div>
   )

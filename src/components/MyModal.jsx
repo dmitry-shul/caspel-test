@@ -19,6 +19,7 @@ const MyModal = ({isModalOpen, setIsModalOpen, inputs, setInputs, invalidMessage
       lastName: "",
       middleName: "",
       age: null,
+      key: undefined,
     })
   };
 
@@ -29,6 +30,7 @@ const MyModal = ({isModalOpen, setIsModalOpen, inputs, setInputs, invalidMessage
       lastName: "",
       middleName: "",
       age: null,
+      key: undefined,
     })
   };
 
@@ -53,16 +55,25 @@ const MyModal = ({isModalOpen, setIsModalOpen, inputs, setInputs, invalidMessage
   }
 
   const saveEdit = () => {
-    /*const person = data.find(item => item.key === inputs.key)
-    console.log(person)
+    //const person = data.find(item => item.key === inputs.key)
+    const filteredData = data.filter(item => item.key !== inputs.key)
     const valid = validation()
+    const editPerson = {
+      key: String(inputs.key),
+      name: `${inputs.name} ${inputs.lastName} ${inputs.middleName}`,
+      age: Number(inputs.age),
+    }
+    const newData = [...filteredData, editPerson]
+    const sortedData = newData.sort((a, b) => a.key - b.key)
+    valid && setData(sortedData)
     valid && setIsModalOpen(false);
     setInputs({
       name: "",
       lastName: "",
       middleName: "",
       age: null,
-    })*/
+      key: undefined,
+    })
   }
 
   return (
