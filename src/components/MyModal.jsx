@@ -8,19 +8,21 @@ const MyModal = ({isModalOpen, setIsModalOpen, inputs, setInputs, invalidMessage
   const handleOk = () => {
     const valid = validation()
     const person = {
-      key: String(data.length + 1),
+      key: String(Math.floor(Math.random()*1000000)),
       name: `${inputs.name} ${inputs.lastName} ${inputs.middleName}`,
       age: Number(inputs.age),
     }
-    valid && setData([...data, person])
-    valid && setIsModalOpen(false);
-    setInputs({
-      name: "",
-      lastName: "",
-      middleName: "",
-      age: null,
-      key: undefined,
-    })
+    if(valid) {
+      setData([...data, person])
+      setIsModalOpen(false);
+      setInputs({
+        name: "",
+        lastName: "",
+        middleName: "",
+        age: null,
+        key: undefined,
+      })
+    }
   };
 
   const handleCancel = () => {
@@ -55,7 +57,6 @@ const MyModal = ({isModalOpen, setIsModalOpen, inputs, setInputs, invalidMessage
   }
 
   const saveEdit = () => {
-    //const person = data.find(item => item.key === inputs.key)
     const filteredData = data.filter(item => item.key !== inputs.key)
     const valid = validation()
     const editPerson = {
@@ -65,15 +66,17 @@ const MyModal = ({isModalOpen, setIsModalOpen, inputs, setInputs, invalidMessage
     }
     const newData = [...filteredData, editPerson]
     const sortedData = newData.sort((a, b) => a.key - b.key)
-    valid && setData(sortedData)
-    valid && setIsModalOpen(false);
-    setInputs({
-      name: "",
-      lastName: "",
-      middleName: "",
-      age: null,
-      key: undefined,
-    })
+    if(valid) {
+      setData(sortedData)
+      setIsModalOpen(false);
+      setInputs({
+        name: "",
+        lastName: "",
+        middleName: "",
+        age: null,
+        key: undefined,
+      })
+    }
   }
 
   return (

@@ -3,10 +3,12 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Button, Space, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import MyModal from './components/MyModal';
+import DeleteModal from './components/DeleteModal';
 
 function App() {
   const [isEdit, setIsEdit] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [invalidMessage, setInvalidMessage] = useState("");
   const [inputs, setInputs] = useState({
     name: "",
@@ -28,18 +30,36 @@ function App() {
       title: 'ФИО',
       dataIndex: 'name',
       key: 'name',
+      showSorterTooltip: {
+        target: 'full-header',
+      },
+      filters: [
+        {
+          text: 'John',
+          value: 'John',
+        },
+        {
+          text: 'Jim',
+          value: 'Jim',
+        },
+      ],
+      onFilter: (value, record) => record.name.indexOf(value) === 0,
+      sorter: (a, b) => a.name.length - b.name.length,
+      defaultSortOrder: 'descend',
+      sortDirections: ['descend'],
     },
     {
       title: 'Возраст',
       dataIndex: 'age',
       key: 'age',
+      sorter: (a, b) => a.age - b.age,
     },
     {
       title: 'Действия',
       key: 'action',
       render: (_, record) => (
         <Space size="middle" className='actions'>
-          <a onClick={() => deletePerson(record.key)}><DeleteOutlined /></a>
+          <a onClick={() => (setIsDeleteModalOpen(true), setInputs({...inputs, key: record.key})) }><DeleteOutlined /></a>
           <a onClick={() => editPerson(record)}><EditOutlined /></a>
         </Space>
       ),
@@ -49,16 +69,11 @@ function App() {
   const showModal = () => {
     setIsEdit(false)
     setIsModalOpen(true);
-  };
+  }; 
 
   useEffect(() => {
     setInvalidMessage("")
   }, [isModalOpen])
-
-  const deletePerson = (key) => {
-    const newData = data.filter(item => item.key !== key)
-    setData(newData)
-  }
 
   const editPerson = (record) => {
     setIsEdit(true)
@@ -89,7 +104,19 @@ function App() {
         data={data} 
         setData={setData} 
       />
-      <Table columns={columns} dataSource={data} />
+      <DeleteModal 
+        isDeleteModalOpen={isDeleteModalOpen} 
+        setIsDeleteModalOpen={setIsDeleteModalOpen} 
+        inputs={inputs} 
+        setInputs={setInputs}
+        data={data} 
+        setData={setData} 
+      />
+      <Table 
+        columns={columns} 
+        dataSource={data} 
+        showSorterTooltip={{target: 'sorter-icon',}} 
+      />
     </div>
   )
 }
