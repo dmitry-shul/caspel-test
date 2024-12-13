@@ -23,6 +23,16 @@ function App() {
       name: 'John Brown Green',
       age: 32,
     },
+    {
+      key: '2',
+      name: 'Alex Rich Black',
+      age: 19,
+    },
+    {
+      key: '3',
+      name: 'Bob Smith White',
+      age: 56,
+    },
   ]);
 
   const columns = [
